@@ -32,6 +32,7 @@ class GameScene extends Phaser.Scene {
     this.load.spritesheet('bomb', 'assets/sprites/bombs.png', {frameWidth: 14.5, frameHeight: 12})
     this.load.audio('music', 'assets/music.mp3')
     this.load.audio('death', 'assets/death.mp3')
+    this.load.audio('pickup', 'assets/pickup.wav')
   }
 
   create() {
@@ -106,11 +107,14 @@ class GameScene extends Phaser.Scene {
 
     function collectMeat (player, meat) {
       meat.destroy()
+      let pickup = this.sound.add('pickup')
+      pickup.play()
       this.score += 100
       this.scoreText.setText('SCORE: ' + this.score)
     }
 
     function hitBomb (player, bomb) {
+      bomb.destroy()
       music.stop()
       let death = this.sound.add('death')
       death.play()
